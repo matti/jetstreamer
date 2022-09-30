@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  server:
+    build: .
+    ports:
+      - 8222:8222
+      - 6222:6222
+      - 4222:4222
+      - 8080:8080
+  servers:
+    build: .

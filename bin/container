@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+subcommand="${1:-}"
+
+case "$subcommand" in
+  recreate)
+    while true; do
+      docker-compose up --build  --force-recreate server || exit
+      sleep 0.25
+    done
+  ;;
+  shell)
+    while true; do
+      docker-compose exec server bash || true
+      sleep 1
+    done
+  ;;
+  servers)
+    amount=$2
+    exec docker-compose up -d --build --scale servers=$amount servers
+  ;;
+  logs)
+    exec docker-compose logs -f servers
+  ;;
+esac
